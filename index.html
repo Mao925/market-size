@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市場規模算出(TAM・SAM・SOM)プロンプト</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 基本フォント設定 */
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #0f172a; /* ダークな背景色 (slate-900) */
+        }
+        /* ガラスのような質感（グラスモーフィズム）のためのスタイル */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.5); /* 半透明の背景 (slate-800/50) */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* テキストのグラデーション */
+        .text-gradient {
+            background-image: linear-gradient(to right, #60a5fa, #3b82f6); /* blue-400 to blue-600 */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        /* フェードインアニメーション */
+        .fade-in {
+            animation: fadeIn 0.7s ease-in-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* コピー成功メッセージのスタイル */
+        .message-box {
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        /* テキストエリアのフォーカス時のリングエフェクト */
+        .focus-ring-gradient:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.6); /* blue-500相当 */
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300">
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6 md:p-8 min-h-screen flex flex-col justify-center">
+        
+        <header class="text-center mb-10 fade-in">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gradient mb-3">市場規模算出(TAM/SAM/SOM)</h1>
+            <p class="text-slate-400 text-lg">データに基づき、事業のポテンシャルを明らかにします。</p>
+        </header>
+
+        <main class="glass-card p-6 sm:p-8 rounded-2xl shadow-2xl shadow-blue-900/20 space-y-8 fade-in" style="animation-delay: 0.2s;">
+
+            <!-- Step 1: How to Use -->
+            <section id="how-to-use">
+                <div class="flex items-start gap-4 sm:gap-6">
+                    <div class="flex-shrink-0 border-2 border-blue-500/50 text-blue-400 rounded-full h-10 w-10 flex items-center justify-center font-bold text-lg shadow-inner shadow-blue-900/50">1</div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-100 mb-4">使い方ガイド</h2>
+                        <div class="space-y-5 text-slate-300">
+                            <div>
+                                <h3 class="font-semibold text-slate-200 mb-2 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                                    推奨AIモデル
+                                </h3>
+                                <p>このプロンプトは、市場調査とデータ分析能力に優れたAIモデルで最高の性能を発揮します。</p>
+                                <ul class="list-disc list-inside mt-2 pl-2 space-y-1 text-slate-400">
+                                    <li><strong>Google: Gemini 2.5 Pro</strong></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-slate-200 mb-2 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd" /></svg>
+                                    利用フロー
+                                </h3>
+                                <ol class="list-decimal list-inside mt-2 pl-2 space-y-1 text-slate-400">
+                                    <li>下の入力欄に、「問題」「課題」「ソリューション」を入力します。</li>
+                                    <li>「プロンプトを生成」ボタンで、AIへの指示文が完成します。</li>
+                                    <li>「コピー」ボタンで指示文をコピーし、AIに貼り付けて実行します。</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-slate-700/80">
+
+            <!-- Step 2: Input Data -->
+            <section id="input-section">
+                <div class="flex items-start gap-4 sm:gap-6">
+                    <div class="flex-shrink-0 border-2 border-blue-500/50 text-blue-400 rounded-full h-10 w-10 flex items-center justify-center font-bold text-lg shadow-inner shadow-blue-900/50">2</div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-100 mb-4">ユーザー入力情報を入力</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <label for="problemInput" class="block text-lg font-medium text-slate-300 mb-2">【問題】</label>
+                                <textarea id="problemInput" rows="3" class="w-full p-4 bg-slate-900/70 border border-slate-600 rounded-lg text-slate-200 placeholder-slate-500 transition duration-150 focus-ring-gradient" placeholder="解決したい問題を貼り付けてください"></textarea>
+                            </div>
+                            <div>
+                                <label for="bottleneckInput" class="block text-lg font-medium text-slate-300 mb-2">【課題】</label>
+                                <textarea id="bottleneckInput" rows="3" class="w-full p-4 bg-slate-900/70 border border-slate-600 rounded-lg text-slate-200 placeholder-slate-500 transition duration-150 focus-ring-gradient" placeholder="問題が発生している原因・ボトルネックを貼り付けてください"></textarea>
+                            </div>
+                             <div>
+                                <label for="solutionInput" class="block text-lg font-medium text-slate-300 mb-2">【ソリューション】</label>
+                                <textarea id="solutionInput" rows="3" class="w-full p-4 bg-slate-900/70 border border-slate-600 rounded-lg text-slate-200 placeholder-slate-500 transition duration-150 focus-ring-gradient" placeholder="ソリューションの施策概要を貼り付けてください"></textarea>
+                            </div>
+                        </div>
+                        <button id="generateBtn" class="mt-6 w-full sm:w-auto inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-lg shadow-lg hover:shadow-blue-500/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
+                            <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75zM3.75 6a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15A.75.75 0 013.75 6zm0 12a.75.75 0 01.75-.75h15a.75.75 0 010 1.5h-15a.75.75 0 01-.75-.75z" />
+                            </svg>
+                            プロンプトを生成
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="border-slate-700/80">
+
+            <!-- Step 3: Output -->
+            <section id="output-section" class="hidden">
+                <div class="flex items-start gap-4 sm:gap-6">
+                    <div class="flex-shrink-0 border-2 border-blue-500/50 text-blue-400 rounded-full h-10 w-10 flex items-center justify-center font-bold text-lg shadow-inner shadow-blue-900/50">3</div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-100 mb-3">生成されたプロンプト</h2>
+                        <div class="relative">
+                            <pre class="w-full bg-slate-900 border border-slate-700 rounded-lg p-4 pr-14 text-sm text-slate-300 overflow-x-auto whitespace-pre-wrap"><code id="promptOutput"></code></pre>
+                            <button id="copyBtn" title="コピーする" class="absolute top-3 right-3 p-2 bg-slate-700/80 text-slate-400 rounded-lg hover:bg-slate-600/80 hover:text-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900 focus:ring-blue-500">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Copy Success Message -->
+    <div id="messageBox" class="message-box fixed bottom-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2 px-5 rounded-full shadow-lg opacity-0 -translate-y-5 pointer-events-none">
+        コピーしました！
+    </div>
+
+    <script>
+        const problemInput = document.getElementById('problemInput');
+        const bottleneckInput = document.getElementById('bottleneckInput');
+        const solutionInput = document.getElementById('solutionInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const outputSection = document.getElementById('output-section');
+        const promptOutput = document.getElementById('promptOutput');
+        const copyBtn = document.getElementById('copyBtn');
+        const messageBox = document.getElementById('messageBox');
+
+        const promptTemplate = `
+# 命令
+あなたはプロの市場調査アナリストです。以下の【ユーザー入力情報】に基づき、客観的でデータに基づいた市場規模の算出（TAM・SAM・SOM）を行ってください。
+
+# 目的
+【ユーザー入力情報】で定義される事業の市場規模を、TAM・SAM・SOMのフレームワークを用いて分析し、具体的な数値と算出根拠を提示する。
+
+# 出力形式
+以下の形式に従い、具体的な市場規模を出力してください。算出にあたっては、信頼できる情報源（公的統計など）を可能な限り参照し、あなたの仮定や推論も明記してください。
+
+---
+### **出力**
+
+#### **TAM (Total Addressable Market) / 獲得可能な最大市場規模**
+* **算出:** （TAMの具体的な数値と、その算出根拠や計算式を記述）
+
+#### **SAM (Serviceable Available Market) / 獲得可能な有効市場規模**
+* **算出:** （SAMの具体的な数値と、その算出根拠や計算式を記述）
+
+#### **SOM (Serviceable Obtainable Market) / 現実的に獲得可能な市場規模**
+* **算出:** （SOMの具体的な数値と、その算出根拠や計算式を記述）
+---
+
+# 出力例（世代間交流サービスの場合）
+* **TAM (Total Addressable Market):** 全国の65歳以上の高齢者人口（約3,600万人）と18-29歳の若者人口（約1,300万人）を合わせた、世代間交流ポテンシャル市場 = **約4,900万人**
+* **SAM (Serviceable Available Market):** 生涯学習や地域活動に関心のある高齢者（約600万人）と、自己投資やスキルアップに関心のある若者（約400万人）を対象とした、スキルシェアサービスがリーチ可能な市場 = **約1,000万人**
+* **SOM (Serviceable Obtainable Market):** 初期ターゲットである首都圏在住のアクティブシニアと大学生に絞り、サービス開始後3年で目指す獲得可能市場 = **約5万人（利用者合計）**
+
+# 実行ステップ
+1.  提供された【ユーザー入力情報】を深く理解します。
+2.  **TAM**を定義するため、問題の背景にある最も大きな人口や市場を特定します。公的統計などのデータを参考に、潜在的な需要の総量を推定してください。
+3.  **SAM**を定義するため、ソリューションの提供価値や制約（言語、地域、プラットフォームなど）を考慮し、TAMの中から実際にサービスを提供できる範囲を絞り込んでください。
+4.  **SOM**を定義するため、事業の初期リソース、マーケティング戦略、競合状況などを踏まえ、短中期（例：3〜5年）で現実的に獲得可能なシェアや顧客数を推定してください。ターゲット顧客層を具体的に設定し、その市場規模を算出してください。
+
+# 【ユーザー入力情報】
+* **問題:**
+    > {{PROBLEM}}
+
+* **ボトルネック:**
+    > {{BOTTLENECK}}
+
+* **ソリューション:**
+    > {{SOLUTION}}
+`.trim();
+
+        generateBtn.addEventListener('click', () => {
+            const problem = problemInput.value.trim();
+            const bottleneck = bottleneckInput.value.trim();
+            const solution = solutionInput.value.trim();
+
+            let hasError = false;
+            if (!problem) {
+                problemInput.classList.add('animate-shake');
+                setTimeout(() => problemInput.classList.remove('animate-shake'), 500);
+                hasError = true;
+            }
+            if (!bottleneck) {
+                bottleneckInput.classList.add('animate-shake');
+                setTimeout(() => bottleneckInput.classList.remove('animate-shake'), 500);
+                hasError = true;
+            }
+             if (!solution) {
+                solutionInput.classList.add('animate-shake');
+                setTimeout(() => solutionInput.classList.remove('animate-shake'), 500);
+                hasError = true;
+            }
+
+            if (hasError) {
+                if (!problem) problemInput.focus();
+                else if (!bottleneck) bottleneckInput.focus();
+                else solutionInput.focus();
+                return;
+            }
+            
+            let finalPrompt = promptTemplate.replace('{{PROBLEM}}', problem);
+            finalPrompt = finalPrompt.replace('{{BOTTLENECK}}', bottleneck);
+            finalPrompt = finalPrompt.replace('{{SOLUTION}}', solution);
+            
+            promptOutput.textContent = finalPrompt;
+            
+            if(outputSection.classList.contains('hidden')) {
+                outputSection.classList.remove('hidden');
+                // 初回生成時のみアニメーション
+                outputSection.classList.add('fade-in');
+            }
+            outputSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const textToCopy = promptOutput.textContent;
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(textToCopy).then(showCopyMessage).catch(err => {
+                    fallbackCopyTextToClipboard(textToCopy);
+                });
+            } else {
+                fallbackCopyTextToClipboard(textToCopy);
+            }
+        });
+
+        function showCopyMessage() {
+            messageBox.style.opacity = '1';
+            messageBox.style.transform = 'translate(-50%, 0)';
+            setTimeout(() => {
+                messageBox.style.opacity = '0';
+                messageBox.style.transform = 'translate(-50%, -20px)';
+            }, 2000);
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.top = "-9999px";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                if(document.execCommand('copy')) showCopyMessage();
+            } catch (err) {
+                console.error('フォールバックコピーに失敗: ', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes shake {
+                10%, 90% { transform: translateX(-1px); }
+                20%, 80% { transform: translateX(2px); }
+                30%, 50%, 70% { transform: translateX(-4px); }
+                40%, 60% { transform: translateX(4px); }
+            }
+            .animate-shake {
+                animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
